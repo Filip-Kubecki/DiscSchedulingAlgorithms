@@ -2,6 +2,7 @@ package Backend;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static java.lang.Math.abs;
 
@@ -44,7 +45,7 @@ public class Algorytmy {
                 timer++;
             }
         }while(size > sizeQueueEnd);
-
+        System.out.println(headMovements);
         return output;
     }
 
@@ -154,7 +155,7 @@ public class Algorytmy {
         return output;
     }
 
-    public static ArrayList<GraphData> CSCAN(ArrayList<Zgloszenie> zgloszenia, int size,int discSize){
+    public static ArrayList<GraphData>  CSCAN(ArrayList<Zgloszenie> zgloszenia, int size,int discSize){
         ArrayList<Zgloszenie> zgloszeniaCopy = (ArrayList<Zgloszenie>) zgloszenia.clone();
         ArrayList<Zgloszenie> queue = new ArrayList<>();
         int sizeQueueEnd = 0;          //Ilość zgłoszeń wykonanych
@@ -201,6 +202,56 @@ public class Algorytmy {
             }
         }while(size > sizeQueueEnd);
 
+        return output;
+    }
+    public static ArrayList<GraphData> EDF(ArrayList<Zgloszenie> zgloszenia, int size,int discSize){
+        ArrayList<Zgloszenie> zgloszeniaCopy = (ArrayList<Zgloszenie>) zgloszenia.clone();
+        ArrayList<Zgloszenie> queue = new ArrayList<>();
+        int sizeQueueEnd = 0;           //Ilość zgłoszeń
+        int timer = 0;          //Czas zegara
+        int headPosition = 0;   //Pozycja głowicy
+        int headMovements = 0;  //Suma przesunięć głowicy
+        int countKilledRequests = 0;
+        ArrayList<GraphData> output = new ArrayList<>();
+
+        do {
+//            Dodawanie procesów do kolejki
+//            dodawanie na podstawie ich momentu zgłoszenia przyrównanego do czasu zegara
+            for (int i = zgloszeniaCopy.size()-1; i > -1; i--) {
+//                Jeśli czas zgłoszenia pokrywa się z czasem zegara, dodaj proces do kolejki (queue) i usuń z ArrayListy(zgłoszenia)
+                if (zgloszeniaCopy.get(i).getMomentZgloszenia() <= timer){
+                    queue.add(zgloszeniaCopy.get(i));
+                    zgloszeniaCopy.remove(zgloszeniaCopy.get(i));
+                }
+            }
+
+//          Obsługa zgłoszeń
+            if (queue.size() != 0){
+                Collections.sort(queue);
+                Zgloszenie report = queue.get(0);
+                headMovements += abs(report.getSektorDysku() - headPosition);
+                headPosition = report.getSektorDysku();
+                output.add(new GraphData(timer,headPosition));
+
+//                Zwiększenie czasu oczekiwania procesów w kolejce
+                int waitingTime = report.getCzasWykonania();
+                for (int i = queue.size()-1; i > 0; i--) {
+                    Zgloszenie tempReport = queue.get(i);
+                    tempReport.IncreaseCzasOczekiwania(waitingTime);
+                    tempReport.decreaseDeadline(waitingTime);
+                    if (tempReport.endOfDeadline()){
+                        queue.remove(tempReport);
+                        sizeQueueEnd++;
+                    }
+                }
+                timer += waitingTime;
+                queue.remove(0);
+                sizeQueueEnd++;
+            }else{
+                timer++;
+            }
+        }while(size > sizeQueueEnd);
+        System.out.println(headMovements);
         return output;
     }
 }

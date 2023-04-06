@@ -33,7 +33,7 @@ public class HelloApplication extends Application {
         series.setName("Head position");
         //populating the series with data
         for (GraphData graphDatum : graphData) {
-            series.getData().add(new XYChart.Data<>(graphDatum.getTime(), graphDatum.getHeadPosition()));
+//            series.getData().add(new XYChart.Data<>(graphDatum.getTime(), graphDatum.getHeadPosition()));
         }
 
 
@@ -46,7 +46,7 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         ArrayList<Zgloszenie> zgloszenia = Generator.generatorNormalny(20,2000);
-        graphData = Algorytmy.SCAN(zgloszenia,zgloszenia.size(),2000);
+//        graphData = Algorytmy.SCAN(zgloszenia,zgloszenia.size(),2000);
         launch();
     }
 }

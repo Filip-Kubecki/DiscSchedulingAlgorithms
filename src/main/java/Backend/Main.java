@@ -6,25 +6,27 @@ import java.util.Collections;
 import static Backend.Generator.*;
 
 public class Main {
-    static int discSize = 2000;
+    static int discSize = 200;
     static int zgloszeniaSize = 200;
     static ArrayList<Zgloszenie> zgloszenia = new ArrayList<>();
 
     public static void main(String[] args) {
-        ArrayList<Zgloszenie> zgloszenia = Generator.generatorZDeadlinami(zgloszeniaSize,discSize);
-//        displayDeadlines(zgloszenia);
-//        Collections.sort(zgloszenia);
-//        displayDeadlines(zgloszenia);
-        System.out.println("FCFS");
-        Algorytmy.FCFS(zgloszenia,zgloszeniaSize,discSize);
-        System.out.println("EDF");
-        Algorytmy.EDF(zgloszenia,zgloszeniaSize,discSize);
-//        System.out.println("SSTF");
-//        System.out.println("Suma przesunięć głowicy: "+Algorytmy.SSTF(zgloszenia,zgloszeniaSize,discSize));
-//        System.out.println("SCAN");
-//        System.out.println("Suma przesunięć głowicy: "+Algorytmy.SCAN(zgloszenia,zgloszeniaSize,discSize));
-//        System.out.println("CSCAN");
-//        System.out.println("Suma przesunięć głowicy: "+Algorytmy.CSCAN(zgloszenia,zgloszeniaSize,discSize));
+        for (int i = 0; i < 100; i++) {
+            ArrayList<Zgloszenie> zgloszenia = Generator.generatorZDeadlinami(zgloszeniaSize,discSize);
+            System.out.println("FCFS");
+            System.out.println(Algorytmy.FCFS(zgloszenia,zgloszeniaSize,discSize).allHeadMovements);
+            System.out.println("SSTF");
+            System.out.println(Algorytmy.SSTF(zgloszenia,zgloszeniaSize,discSize).allHeadMovements);
+            System.out.println("SCAN");
+            System.out.println(Algorytmy.SCAN(zgloszenia,zgloszeniaSize,discSize).allHeadMovements);
+            System.out.println("CSCAN");
+            System.out.println(Algorytmy.CSCAN(zgloszenia,zgloszeniaSize,discSize).allHeadMovements);
+            System.out.println("EDF");
+            System.out.println(Algorytmy.EDF(zgloszenia,zgloszeniaSize,discSize).allHeadMovements);
+            System.out.println("FD_SCAN");
+            System.out.println(Algorytmy.FD_SCAN(zgloszenia,zgloszeniaSize,discSize).allHeadMovements);
+        }
+        System.out.println("Koniec");
     }
 //    Methods for easy debugging
     public static void displayDeadlines(ArrayList<Zgloszenie> zgloszenia){

@@ -44,9 +44,6 @@ public class Zgloszenie implements Comparable<Zgloszenie> {
     public int getDeadline() {
         return deadline;
     }
-    public void setDeadline(int deadline) {
-        this.deadline = deadline;
-    }
     public boolean endOfDeadline(){
         return this.deadline <= 0;
     }

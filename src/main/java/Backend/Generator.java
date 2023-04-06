@@ -23,8 +23,9 @@ public class Generator {
         for (int i = 0; i < zgloszenieSize; i++) {
             int rand = random(0,5);
             timer += rand;
-            zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),random(1,1)));
+            zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),random(30,100)));
         }
         return zgloszenia;
     }
+//    TODO:napisać generator hybrydowy -> zwraca listę procesów z i bez deadlinów
 }

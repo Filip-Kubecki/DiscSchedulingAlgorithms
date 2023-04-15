@@ -13,6 +13,7 @@ public class Algorytmy {
         int timer = 0;          //Czas zegara
         int headPosition = 0;   //Pozycja głowicy
         int headMovements = 0;  //Suma przesunięć głowicy
+        int totalWaitingTime = 0;  //Suma czasu oczekiwania
         ArrayList<TimeToHeadPosition> headPositionChangesInTime = new ArrayList<>();
         GraphData output = new GraphData();
 
@@ -47,6 +48,8 @@ public class Algorytmy {
         }while(size > sizeQueueEnd);
         output.setTimeToHeadPositionArray(headPositionChangesInTime);
         output.setAllHeadMovements(headMovements);
+        output.setTotalTime(timer);
+        output.setAmountOfKilledRequest(0);
         return output;
     }
 
@@ -99,6 +102,8 @@ public class Algorytmy {
         }while(size > sizeQueueEnd);
         output.setTimeToHeadPositionArray(headPositionChangesInTime);
         output.setAllHeadMovements(headMovements);
+        output.setTotalTime(timer);
+        output.setAmountOfKilledRequest(0);
         return output;
     }
 
@@ -156,6 +161,8 @@ public class Algorytmy {
         }while(size > sizeQueueEnd);
         output.setTimeToHeadPositionArray(headPositionChangesInTime);
         output.setAllHeadMovements(headMovements);
+        output.setTotalTime(timer);
+        output.setAmountOfKilledRequest(0);
         return output;
     }
 
@@ -209,6 +216,8 @@ public class Algorytmy {
 
         output.setTimeToHeadPositionArray(headPositionChangesInTime);
         output.setAllHeadMovements(headMovements);
+        output.setTotalTime(timer);
+        output.setAmountOfKilledRequest(0);
         return output;
     }
 //    Real time algorithms
@@ -252,6 +261,7 @@ public class Algorytmy {
                     if (tempReport.endOfDeadline()){
                         queue.remove(tempReport);
                         sizeQueueEnd++;
+                        countKilledRequests++;
                     }
                 }
                 timer += waitingTime;
@@ -263,6 +273,8 @@ public class Algorytmy {
         }while(size > sizeQueueEnd);
         output.setTimeToHeadPositionArray(headPositionChangesInTime);
         output.setAllHeadMovements(headMovements);
+        output.setTotalTime(timer);
+        output.setAmountOfKilledRequest(countKilledRequests);
         return output;
     }
 
@@ -273,6 +285,7 @@ public class Algorytmy {
         int timer = 0;                 //Czas zegara
         int headPosition = 0;          //Pozycja głowicy
         int headMovements = 0;         //Suma przesunięć głowicy
+        int countKilledRequests = 0;
         boolean headDirection = true;  //true = right, false = left
         ArrayList<TimeToHeadPosition> headPositionChangesInTime = new ArrayList<>();
         GraphData output = new GraphData();
@@ -326,10 +339,22 @@ public class Algorytmy {
                 timer++;
                 headMovements++;
             }
+            for (int i = queue.size()-1; i > 0; i--) {
+                Zgloszenie tempReport = queue.get(i);
+                tempReport.IncreaseCzasOczekiwania(1);
+                tempReport.decreaseDeadline(1);
+                if (tempReport.endOfDeadline()){
+                    queue.remove(tempReport);
+                    sizeQueueEnd++;
+                    countKilledRequests++;
+                }
+            }
         }while(size > sizeQueueEnd);
 //        Wpisywanie danych do klasy z wynikami
         output.setTimeToHeadPositionArray(headPositionChangesInTime);
         output.setAllHeadMovements(headMovements);
+        output.setTotalTime(timer);
+        output.setAmountOfKilledRequest(countKilledRequests);
         return output;
     }
 

@@ -1,0 +1,48 @@
+/*Color chart:
+#1F2229 - background gray
+#EFF1F3 - text white
+
+*/
+
+
+.background-color{
+    -fx-background-color: #1F2229;
+    /*-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1F2229, #651139);*/
+}
+
+.text-h1{
+    -fx-text-fill: #EFF1F3;
+    -fx-font-family: "Roboto Thin";
+    -fx-font-size: 24;
+}
+
+.text-neutral{
+    -fx-text-fill: #EFF1F3;
+    -fx-font-family: "Roboto Thin";
+    -fx-font-size: 18;
+}
+
+.chart{
+    -fx-background-color: #1F2229;
+    -fx-legend-visible: false;
+}
+
+.chart-plot-background {
+    -fx-background-color: #1F2229;
+}
+
+.button{
+
+}
+
+.container{
+    -fx-background-color: #262a33;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.default-color0.chart-series-line { -fx-stroke: #5B5F97; }
+.default-color0.chart-line-symbol { -fx-background-color: #5B5F97, white; }
+
+.default-color1.chart-series-line { -fx-stroke: #ffc145; }
+.default-color1.chart-line-symbol { -fx-background-color: #ffc145, white; }

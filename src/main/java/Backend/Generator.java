@@ -27,5 +27,19 @@ public class Generator {
         }
         return zgloszenia;
     }
-//    TODO:napisać generator hybrydowy -> zwraca listę procesów z i bez deadlinów
+    public static ArrayList<Zgloszenie> generatorHybrydowy(int zgloszenieSize, int discSize, int deadlinePercentage){
+        ArrayList<Zgloszenie> zgloszenia = new ArrayList<>(zgloszenieSize);
+        int timer = 0;
+        for (int i = 0; i < zgloszenieSize; i++) {
+            int randomDeadline = random(0,100);
+            int randomTime = random(0,5);
+            timer += randomTime;
+            if (randomDeadline > deadlinePercentage)
+                zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),random(30,100)));
+            else
+                zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3)));
+
+        }
+        return zgloszenia;
+    }
 }

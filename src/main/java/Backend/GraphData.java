@@ -11,6 +11,16 @@ public class GraphData {
     int amountOfKilledRequest;
 //    Pozycje głowicy w czasie
     ArrayList<TimeToHeadPosition> timeToHeadPositionArray;
+    //    Suma przesunięć głowicy w ciągu czasu trwania algorytmu
+    int totalTime;
+
+    public int getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(int totalTime) {
+        this.totalTime = totalTime;
+    }
 
     public GraphData() {}
 

@@ -7,21 +7,32 @@ public class Zgloszenie implements Comparable<Zgloszenie> {
     int momentZgloszenia;
     int czasWykonania;
     int deadline;
+    boolean haveDeadline;
 
-    public Zgloszenie(int lp, int sektorDysku, int momentZgloszenia, int czasWykonania) {
+    public boolean isHaveDeadline() {
+        return haveDeadline;
+    }
+
+    public void setHaveDeadline(boolean haveDeadline) {
+        this.haveDeadline = haveDeadline;
+    }
+
+    public Zgloszenie(int lp, int sektorDysku, int momentZgloszenia, int czasWykonania,boolean haveDeadline) {
         this.lp = lp;
         this.czasOczekiwania = 0;
         this.sektorDysku = sektorDysku;
         this.momentZgloszenia = momentZgloszenia;
         this.czasWykonania = czasWykonania;
+        this.haveDeadline = haveDeadline;
     }
-    public Zgloszenie(int lp,int sektorDysku, int momentZgloszenia, int czasWykonania, int deadline) {
+    public Zgloszenie(int lp,int sektorDysku, int momentZgloszenia, int czasWykonania, int deadline,boolean haveDeadline) {
         this.lp = lp;
         this.czasOczekiwania = 0;
         this.sektorDysku = sektorDysku;
         this.momentZgloszenia = momentZgloszenia;
         this.czasWykonania = czasWykonania;
         this.deadline = deadline;
+        this.haveDeadline = haveDeadline;
     }
     public int getCzasOczekiwania() {
         return czasOczekiwania;

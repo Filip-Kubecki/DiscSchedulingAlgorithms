@@ -13,7 +13,7 @@ public class Generator {
         for (int i = 0; i < zgloszenieSize; i++) {
             int rand = random(3,15);
             timer += rand;
-            zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3)));
+            zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),false));
         }
         return zgloszenia;
     }
@@ -23,7 +23,7 @@ public class Generator {
         for (int i = 0; i < zgloszenieSize; i++) {
             int rand = random(0,5);
             timer += rand;
-            zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),random(30,100)));
+            zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),random(30,100),false));
         }
         return zgloszenia;
     }
@@ -35,10 +35,9 @@ public class Generator {
             int randomTime = random(0,5);
             timer += randomTime;
             if (randomDeadline > deadlinePercentage)
-                zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),random(30,100)));
+                zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),random(50,100),true));
             else
-                zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3)));
-
+                zgloszenia.add(new Zgloszenie(i+1,random(0,discSize),timer,random(0,3),false));
         }
         return zgloszenia;
     }

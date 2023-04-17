@@ -339,14 +339,16 @@ public class Algorytmy {
                 timer++;
                 headMovements++;
             }
-            for (int i = queue.size()-1; i > 0; i--) {
-                Zgloszenie tempReport = queue.get(i);
-                tempReport.IncreaseCzasOczekiwania(1);
-                tempReport.decreaseDeadline(1);
-                if (tempReport.endOfDeadline()){
-                    queue.remove(tempReport);
-                    sizeQueueEnd++;
-                    countKilledRequests++;
+            if (queue.size() != 0){
+                for (int i = queue.size()-1; i > 0; i--) {
+                    Zgloszenie tempReport = queue.get(i);
+                    tempReport.IncreaseCzasOczekiwania(1);
+                    tempReport.decreaseDeadline(1);
+                    if (tempReport.endOfDeadline() && tempReport.haveDeadline){
+                        queue.remove(tempReport);
+                        sizeQueueEnd++;
+                        countKilledRequests++;
+                    }
                 }
             }
         }while(size > sizeQueueEnd);

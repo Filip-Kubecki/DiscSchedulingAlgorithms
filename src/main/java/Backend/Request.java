@@ -1,6 +1,6 @@
 package Backend;
 
-public class Zgloszenie implements Comparable<Zgloszenie> {
+public class Request implements Comparable<Request> {
     int lp;
     int czasOczekiwania;
     int sektorDysku;
@@ -17,7 +17,7 @@ public class Zgloszenie implements Comparable<Zgloszenie> {
         this.haveDeadline = haveDeadline;
     }
 
-    public Zgloszenie(int lp, int sektorDysku, int momentZgloszenia, int czasWykonania,boolean haveDeadline) {
+    public Request(int lp, int sektorDysku, int momentZgloszenia, int czasWykonania, boolean haveDeadline) {
         this.lp = lp;
         this.czasOczekiwania = 0;
         this.sektorDysku = sektorDysku;
@@ -25,7 +25,7 @@ public class Zgloszenie implements Comparable<Zgloszenie> {
         this.czasWykonania = czasWykonania;
         this.haveDeadline = haveDeadline;
     }
-    public Zgloszenie(int lp,int sektorDysku, int momentZgloszenia, int czasWykonania, int deadline,boolean haveDeadline) {
+    public Request(int lp, int sektorDysku, int momentZgloszenia, int czasWykonania, int deadline, boolean haveDeadline) {
         this.lp = lp;
         this.czasOczekiwania = 0;
         this.sektorDysku = sektorDysku;
@@ -62,7 +62,7 @@ public class Zgloszenie implements Comparable<Zgloszenie> {
         this.deadline -= waitingTime;
     }
     @Override
-    public int compareTo(Zgloszenie o) {
+    public int compareTo(Request o) {
         return Integer.compare(this.deadline, o.getDeadline());
     }
 }

@@ -4,6 +4,7 @@ import Backend.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -18,6 +19,7 @@ public class HelloApplication extends Application {
         stage.initStyle(StageStyle.UNDECORATED);
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("mainFrame.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+//        stage.getIcons().add(new Image(getClass().getResourceAsStream("file:com/example/systemyoperacyjnezadanie2/data.png")));
         stage.setScene(scene);
         stage.show();
     }

@@ -2,46 +2,81 @@ package com.example.systemyoperacyjnezadanie2;
 
 import Backend.*;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-public class Controler {
+public class Controler implements Initializable{
+    ArrayList<Request> preGeneratedData;
+    boolean preGeneratedDataState = false;
+
     @FXML LineChart<Number, Number> dataChart;
     @FXML TextField discSize;
     @FXML TextField requestSize;
 
     @FXML Label totalTime;
     @FXML Label allHeadMove;
-    @FXML Label avgWaitingTime;
     @FXML Label killedRequests;
+    @FXML CheckBox preGenerate;
 
-    boolean preGeneratedData = false;
+    @FXML TableView<tableData> dataTable;
+    @FXML TableColumn<tableData, String> algName;
+    @FXML TableColumn<tableData, Integer> allHeadMoves;
 
+    @FXML
+    private  void preGenerateData(ActionEvent event){
+        int zgloszeniaSize = Integer.parseInt(requestSize.getText());
+        int DiscSize = Integer.parseInt(discSize.getText());
+        if (preGenerate.isSelected()){
+            preGeneratedDataState = true;
+            preGeneratedata(zgloszeniaSize, DiscSize);
 
+            tableData FCFS = new tableData("FCFS",Algorytmy.FCFS(preGeneratedData, preGeneratedData.size(), DiscSize).getAllHeadMovements());
+            tableData SSTF = new tableData("SSTF",Algorytmy.SSTF(preGeneratedData, preGeneratedData.size(), DiscSize).getAllHeadMovements());
+            tableData SCAN = new tableData("SCAN",Algorytmy.SCAN(preGeneratedData, preGeneratedData.size(), DiscSize).getAllHeadMovements());
+            tableData CSCAN = new tableData("CSCAN",Algorytmy.CSCAN(preGeneratedData, preGeneratedData.size(), DiscSize).getAllHeadMovements());
+            tableData EDF = new tableData("EDF",Algorytmy.EDF(preGeneratedData, preGeneratedData.size(), DiscSize).getAllHeadMovements());
+            tableData FDSCAN = new tableData("FDSCAN",Algorytmy.FD_SCAN(preGeneratedData, preGeneratedData.size(), DiscSize).getAllHeadMovements());
+            ObservableList<tableData> tableDatas = dataTable.getItems();
+            tableDatas.clear();
+            tableDatas.add(FCFS);
+            tableDatas.add(SSTF);
+            tableDatas.add(SCAN);
+            tableDatas.add(CSCAN);
+            tableDatas.add(EDF);
+            tableDatas.add(FDSCAN);
+            dataTable.setItems(tableDatas);
+        }else{
+            preGeneratedDataState = false;
+        }
+    }
     @FXML
     private void FCFS(ActionEvent event) {
         dataChart.getData().clear();
         int zgloszeniaSize = Integer.parseInt(requestSize.getText());
         int DiscSize = Integer.parseInt(discSize.getText());
+        ArrayList<Request> zgloszenia;
+        GraphData allData;
+        ArrayList<TimeToHeadPosition> graphData;
 
-        ArrayList<Zgloszenie> zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
-        GraphData allData = Algorytmy.FCFS(zgloszenia, zgloszenia.size(), DiscSize);
-        ArrayList<TimeToHeadPosition> graphData = allData.getTimeToHeadPositionArray();
+        if (preGeneratedDataState){
+            zgloszenia = preGeneratedData;
+        }else{
+            zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
+        }
+
+        allData = Algorytmy.FCFS(zgloszenia, zgloszenia.size(), DiscSize);
+        graphData = allData.getTimeToHeadPositionArray();
 
         //defining a series
         XYChart.Series<Number, Number> series = new XYChart.Series<Number,Number>();
@@ -59,10 +94,18 @@ public class Controler {
         dataChart.getData().clear();
         int zgloszeniaSize = Integer.parseInt(requestSize.getText());
         int DiscSize = Integer.parseInt(discSize.getText());
+        ArrayList<Request> zgloszenia;
+        GraphData allData;
+        ArrayList<TimeToHeadPosition> graphData;
 
-        ArrayList<Zgloszenie> zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,20);
-        GraphData allData = Algorytmy.SSTF(zgloszenia, zgloszenia.size(), DiscSize);
-        ArrayList<TimeToHeadPosition> graphData = allData.getTimeToHeadPositionArray();
+        if (preGeneratedDataState){
+            zgloszenia = preGeneratedData;
+        }else{
+            zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
+        }
+
+        allData = Algorytmy.SSTF(zgloszenia, zgloszenia.size(), DiscSize);
+        graphData = allData.getTimeToHeadPositionArray();
 
         //defining a series
         XYChart.Series<Number, Number> series = new XYChart.Series<Number,Number>();
@@ -81,10 +124,18 @@ public class Controler {
         dataChart.getData().clear();
         int zgloszeniaSize = Integer.parseInt(requestSize.getText());
         int DiscSize = Integer.parseInt(discSize.getText());
+        ArrayList<Request> zgloszenia;
+        GraphData allData;
+        ArrayList<TimeToHeadPosition> graphData;
 
-        ArrayList<Zgloszenie> zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,20);
-        GraphData allData = Algorytmy.SCAN(zgloszenia, zgloszenia.size(), DiscSize);
-        ArrayList<TimeToHeadPosition> graphData = allData.getTimeToHeadPositionArray();
+        if (preGeneratedDataState){
+            zgloszenia = preGeneratedData;
+        }else{
+            zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
+        }
+
+        allData = Algorytmy.SCAN(zgloszenia, zgloszenia.size(), DiscSize);
+        graphData = allData.getTimeToHeadPositionArray();
 
         //defining a series
         XYChart.Series<Number, Number> series = new XYChart.Series<Number,Number>();
@@ -103,10 +154,18 @@ public class Controler {
         dataChart.getData().clear();
         int zgloszeniaSize = Integer.parseInt(requestSize.getText());
         int DiscSize = Integer.parseInt(discSize.getText());
+        ArrayList<Request> zgloszenia;
+        GraphData allData;
+        ArrayList<TimeToHeadPosition> graphData;
 
-        ArrayList<Zgloszenie> zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,20);
-        GraphData allData = Algorytmy.CSCAN(zgloszenia, zgloszenia.size(), DiscSize);
-        ArrayList<TimeToHeadPosition> graphData = allData.getTimeToHeadPositionArray();
+        if (preGeneratedDataState){
+            zgloszenia = preGeneratedData;
+        }else{
+            zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
+        }
+
+        allData = Algorytmy.CSCAN(zgloszenia, zgloszenia.size(), DiscSize);
+        graphData = allData.getTimeToHeadPositionArray();
 
         //defining a series
         XYChart.Series<Number, Number> series = new XYChart.Series<Number,Number>();
@@ -125,10 +184,18 @@ public class Controler {
         dataChart.getData().clear();
         int zgloszeniaSize = Integer.parseInt(requestSize.getText());
         int DiscSize = Integer.parseInt(discSize.getText());
+        ArrayList<Request> zgloszenia;
+        GraphData allData;
+        ArrayList<TimeToHeadPosition> graphData;
 
-        ArrayList<Zgloszenie> zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,20);
-        GraphData allData = Algorytmy.EDF(zgloszenia, zgloszenia.size(), DiscSize);
-        ArrayList<TimeToHeadPosition> graphData = allData.getTimeToHeadPositionArray();
+        if (preGeneratedDataState){
+            zgloszenia = preGeneratedData;
+        }else{
+            zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
+        }
+
+        allData = Algorytmy.EDF(zgloszenia, zgloszenia.size(), DiscSize);
+        graphData = allData.getTimeToHeadPositionArray();
 
         //defining a series
         XYChart.Series<Number, Number> series = new XYChart.Series<Number,Number>();
@@ -147,10 +214,18 @@ public class Controler {
         dataChart.getData().clear();
         int zgloszeniaSize = Integer.parseInt(requestSize.getText());
         int DiscSize = Integer.parseInt(discSize.getText());
+        ArrayList<Request> zgloszenia;
+        GraphData allData;
+        ArrayList<TimeToHeadPosition> graphData;
 
-        ArrayList<Zgloszenie> zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
-        GraphData allData = Algorytmy.FD_SCAN(zgloszenia, zgloszenia.size(), DiscSize);
-        ArrayList<TimeToHeadPosition> graphData = allData.getTimeToHeadPositionArray();
+        if (preGeneratedDataState){
+            zgloszenia = preGeneratedData;
+        }else{
+            zgloszenia = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
+        }
+
+        allData = Algorytmy.FD_SCAN(zgloszenia, zgloszenia.size(), DiscSize);
+        graphData = allData.getTimeToHeadPositionArray();
 
         //defining a series
         XYChart.Series<Number, Number> series = new XYChart.Series<Number,Number>();
@@ -164,7 +239,19 @@ public class Controler {
         killedRequests.setText(String.valueOf(allData.getAmountOfKilledRequest()));
         dataChart.getData().add(series);
     }
-    @FXML void exit(ActionEvent event){
+    @FXML
+    private void exit(ActionEvent event){
         Platform.exit();
     }
+
+    public void preGeneratedata(int zgloszeniaSize,int DiscSize){
+        preGeneratedData = Generator.generatorHybrydowy(zgloszeniaSize, DiscSize,80);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        algName.setCellValueFactory(new PropertyValueFactory<tableData, String>("algorythmName"));
+        allHeadMoves.setCellValueFactory(new PropertyValueFactory<tableData, Integer>("allHeadMovements"));
+    }
+
 }

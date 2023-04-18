@@ -6,9 +6,9 @@ import java.util.Collections;
 import static java.lang.Math.abs;
 
 public class Algorytmy {
-    public static GraphData FCFS(ArrayList<Zgloszenie> zgloszenia, int size,int discSize){
-        ArrayList<Zgloszenie> zgloszeniaCopy = (ArrayList<Zgloszenie>) zgloszenia.clone();
-        ArrayList<Zgloszenie> queue = new ArrayList<>();
+    public static GraphData FCFS(ArrayList<Request> zgloszenia, int size, int discSize){
+        ArrayList<Request> zgloszeniaCopy = (ArrayList<Request>) zgloszenia.clone();
+        ArrayList<Request> queue = new ArrayList<>();
         int sizeQueueEnd = 0;           //Ilość zgłoszeń
         int timer = 0;          //Czas zegara
         int headPosition = 0;   //Pozycja głowicy
@@ -30,7 +30,7 @@ public class Algorytmy {
 
 //          Obsługa zgłoszeń
             if (queue.size() != 0){
-                Zgloszenie report = queue.get(0);
+                Request report = queue.get(0);
                 headMovements += abs(report.getSektorDysku() - headPosition);
                 headPosition = report.getSektorDysku();
                 headPositionChangesInTime.add(new TimeToHeadPosition(timer,headPosition));
@@ -53,9 +53,9 @@ public class Algorytmy {
         return output;
     }
 
-    public static GraphData SSTF(ArrayList<Zgloszenie> zgloszenia, int size,int discSize){
-        ArrayList<Zgloszenie> zgloszeniaCopy = (ArrayList<Zgloszenie>) zgloszenia.clone();
-        ArrayList<Zgloszenie> queue = new ArrayList<>();
+    public static GraphData SSTF(ArrayList<Request> zgloszenia, int size, int discSize){
+        ArrayList<Request> zgloszeniaCopy = (ArrayList<Request>) zgloszenia.clone();
+        ArrayList<Request> queue = new ArrayList<>();
         int sizeQueueEnd = 0;          //Ilość zgłoszeń wykonanych
         int timer = 0;                 //Czas zegara
         int headPosition = 0;          //Pozycja głowicy
@@ -77,13 +77,13 @@ public class Algorytmy {
             if (queue.size() != 0){
 //                Znajdywanie najbliższego zgłoszenia
                 int indexOf = 0;//Index najbliższego sektora w kolejce
-                for (Zgloszenie zgloszenie : queue) {
-                    if (abs(zgloszenie.getSektorDysku()-headPosition)<abs(queue.get(indexOf).getSektorDysku()-headPosition)){
-                        indexOf = queue.indexOf(zgloszenie);
+                for (Request request : queue) {
+                    if (abs(request.getSektorDysku()-headPosition)<abs(queue.get(indexOf).getSektorDysku()-headPosition)){
+                        indexOf = queue.indexOf(request);
                     }
                 }
 
-                Zgloszenie report = queue.get(indexOf);
+                Request report = queue.get(indexOf);
                 headMovements += abs(report.getSektorDysku() - headPosition);
                 headPosition = report.getSektorDysku();
 
@@ -107,9 +107,9 @@ public class Algorytmy {
         return output;
     }
 
-    public static GraphData SCAN(ArrayList<Zgloszenie> zgloszenia, int size, int discSize){
-        ArrayList<Zgloszenie> zgloszeniaCopy = (ArrayList<Zgloszenie>) zgloszenia.clone();
-        ArrayList<Zgloszenie> queue = new ArrayList<>();
+    public static GraphData SCAN(ArrayList<Request> zgloszenia, int size, int discSize){
+        ArrayList<Request> zgloszeniaCopy = (ArrayList<Request>) zgloszenia.clone();
+        ArrayList<Request> queue = new ArrayList<>();
         int sizeQueueEnd = 0;          //Ilość zgłoszeń wykonanych
         int timer = 0;                 //Czas zegara
         int headPosition = 0;          //Pozycja głowicy
@@ -130,19 +130,19 @@ public class Algorytmy {
             }
 //            Wyszukiwanie zgłoszeń w miejscu głowicy
             int indexOf = -1;
-            for (Zgloszenie zgloszenie : queue) {
-                if (zgloszenie.getSektorDysku() == headPosition){
-                    indexOf = queue.indexOf(zgloszenie);
+            for (Request request : queue) {
+                if (request.getSektorDysku() == headPosition){
+                    indexOf = queue.indexOf(request);
                 }
             }
 //            Wykonanie zgłoszeń w przypadku wykrycia
             if (indexOf != -1){
-                Zgloszenie zgloszenie = queue.get(indexOf);
+                Request request = queue.get(indexOf);
 
                 headPositionChangesInTime.add(new TimeToHeadPosition(timer,headPosition));
 
-                timer += zgloszenie.getCzasWykonania();
-                queue.remove(zgloszenie);
+                timer += request.getCzasWykonania();
+                queue.remove(request);
                 sizeQueueEnd++;
             }else{
                 if (headPosition == discSize){
@@ -166,9 +166,9 @@ public class Algorytmy {
         return output;
     }
 
-    public static GraphData CSCAN(ArrayList<Zgloszenie> zgloszenia, int size,int discSize){
-        ArrayList<Zgloszenie> zgloszeniaCopy = (ArrayList<Zgloszenie>) zgloszenia.clone();
-        ArrayList<Zgloszenie> queue = new ArrayList<>();
+    public static GraphData CSCAN(ArrayList<Request> zgloszenia, int size, int discSize){
+        ArrayList<Request> zgloszeniaCopy = (ArrayList<Request>) zgloszenia.clone();
+        ArrayList<Request> queue = new ArrayList<>();
         int sizeQueueEnd = 0;          //Ilość zgłoszeń wykonanych
         int timer = 0;                 //Czas zegara
         int headPosition = 0;          //Pozycja głowicy
@@ -189,17 +189,17 @@ public class Algorytmy {
             }
 //            Wyszukiwanie zgłoszeń w miejscu głowicy
             int indexOf = -1;
-            for (Zgloszenie zgloszenie : queue) {
-                if (zgloszenie.getSektorDysku() == headPosition){
-                    indexOf = queue.indexOf(zgloszenie);
+            for (Request request : queue) {
+                if (request.getSektorDysku() == headPosition){
+                    indexOf = queue.indexOf(request);
                 }
             }
 //            Wykonanie zgłoszeń w przypadku wykrycia
             if (indexOf != -1){
-                Zgloszenie zgloszenie = queue.get(indexOf);
+                Request request = queue.get(indexOf);
                 headPositionChangesInTime.add(new TimeToHeadPosition(timer,headPosition));
-                timer += zgloszenie.getCzasWykonania();
-                queue.remove(zgloszenie);
+                timer += request.getCzasWykonania();
+                queue.remove(request);
                 sizeQueueEnd++;
 //                System.out.println("Kierunek "+headDirection+" Size:"+size+" Queue Size:"+sizeQueueEnd);
             }else{
@@ -221,9 +221,9 @@ public class Algorytmy {
         return output;
     }
 //    Real time algorithms
-    public static GraphData EDF(ArrayList<Zgloszenie> zgloszenia, int size,int discSize){
-        ArrayList<Zgloszenie> zgloszeniaCopy = (ArrayList<Zgloszenie>) zgloszenia.clone();
-        ArrayList<Zgloszenie> queue = new ArrayList<>();
+    public static GraphData EDF(ArrayList<Request> zgloszenia, int size, int discSize){
+        ArrayList<Request> zgloszeniaCopy = (ArrayList<Request>) zgloszenia.clone();
+        ArrayList<Request> queue = new ArrayList<>();
         int sizeQueueEnd = 0;           //Ilość zgłoszeń
         int timer = 0;          //Czas zegara
         int headPosition = 0;   //Pozycja głowicy
@@ -247,7 +247,7 @@ public class Algorytmy {
 //          Obsługa zgłoszeń
             if (queue.size() != 0){
                 Collections.sort(queue);
-                Zgloszenie report = queue.get(0);
+                Request report = queue.get(0);
                 headMovements += abs(report.getSektorDysku() - headPosition);
                 headPosition = report.getSektorDysku();
                 headPositionChangesInTime.add(new TimeToHeadPosition(timer,headPosition));
@@ -255,7 +255,7 @@ public class Algorytmy {
 //                Zwiększenie czasu oczekiwania procesów w kolejce
                 int waitingTime = report.getCzasWykonania();
                 for (int i = queue.size()-1; i > 0; i--) {
-                    Zgloszenie tempReport = queue.get(i);
+                    Request tempReport = queue.get(i);
                     tempReport.IncreaseCzasOczekiwania(waitingTime);
                     tempReport.decreaseDeadline(waitingTime);
                     if (tempReport.endOfDeadline()){
@@ -278,9 +278,9 @@ public class Algorytmy {
         return output;
     }
 
-    public static GraphData  FD_SCAN(ArrayList<Zgloszenie> zgloszenia, int size,int discSize){
-        ArrayList<Zgloszenie> zgloszeniaCopy = (ArrayList<Zgloszenie>) zgloszenia.clone();
-        ArrayList<Zgloszenie> queue = new ArrayList<>();
+    public static GraphData  FD_SCAN(ArrayList<Request> zgloszenia, int size, int discSize){
+        ArrayList<Request> zgloszeniaCopy = (ArrayList<Request>) zgloszenia.clone();
+        ArrayList<Request> queue = new ArrayList<>();
         int sizeQueueEnd = 0;          //Ilość zgłoszeń wykonanych
         int timer = 0;                 //Czas zegara
         int headPosition = 0;          //Pozycja głowicy
@@ -304,19 +304,19 @@ public class Algorytmy {
 
 //            Wyszukiwanie zgłoszeń w miejscu głowicy
             int indexOf = -1;
-            for (Zgloszenie zgloszenie : queue) {
-                if (zgloszenie.getSektorDysku() == headPosition){
-                    indexOf = queue.indexOf(zgloszenie);
+            for (Request request : queue) {
+                if (request.getSektorDysku() == headPosition){
+                    indexOf = queue.indexOf(request);
                 }
             }
 //            Wykonanie zgłoszeń w przypadku wykrycia
             if (indexOf != -1){
-                Zgloszenie zgloszenie = queue.get(indexOf);
+                Request request = queue.get(indexOf);
 
                 headPositionChangesInTime.add(new TimeToHeadPosition(timer,headPosition));
 
-                timer += zgloszenie.getCzasWykonania();
-                queue.remove(zgloszenie);
+                timer += request.getCzasWykonania();
+                queue.remove(request);
                 sizeQueueEnd++;
             }else{
                 if (headPosition == discSize)
@@ -341,7 +341,7 @@ public class Algorytmy {
             }
             if (queue.size() != 0){
                 for (int i = queue.size()-1; i > 0; i--) {
-                    Zgloszenie tempReport = queue.get(i);
+                    Request tempReport = queue.get(i);
                     tempReport.IncreaseCzasOczekiwania(1);
                     tempReport.decreaseDeadline(1);
                     if (tempReport.endOfDeadline() && tempReport.haveDeadline){
@@ -360,12 +360,12 @@ public class Algorytmy {
         return output;
     }
 
-    public static int closestDeadlineDirection(ArrayList<Zgloszenie> zgloszenia, int headPosition){
+    public static int closestDeadlineDirection(ArrayList<Request> zgloszenia, int headPosition){
         int temp = 0;
 //        Find shortest deadline
-        for (Zgloszenie zgloszenie : zgloszenia) {
-            if (zgloszenie.getDeadline() > zgloszenia.get(temp).getDeadline())
-                temp = zgloszenia.indexOf(zgloszenie);
+        for (Request request : zgloszenia) {
+            if (request.getDeadline() > zgloszenia.get(temp).getDeadline())
+                temp = zgloszenia.indexOf(request);
         }
 //        Return direction of deadline: 1 - right, -1 - left,
         if (zgloszenia.get(temp).getSektorDysku() == headPosition)

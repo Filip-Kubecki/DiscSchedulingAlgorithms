@@ -7,6 +7,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -236,11 +238,24 @@
             </VBox>
             <VBox prefHeight="62.0" prefWidth="177.0" styleClass="container">
                <children>
-                  <CheckBox mnemonicParsing="false" prefHeight="27.0" prefWidth="145.0" styleClass="text-neutral" text="Pre generate">
+                  <CheckBox fx:id="preGenerate" mnemonicParsing="false" onAction="#preGenerateData" prefHeight="27.0" prefWidth="145.0" styleClass="text-neutral" text="Pre generate">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </CheckBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="dataTable" prefHeight="190.0" prefWidth="188.0" stylesheets="@styles.css">
+                    <columns>
+                      <TableColumn fx:id="algName" prefWidth="74.39995747804642" resizable="false" text="Algorithms" />
+                      <TableColumn fx:id="allHeadMoves" prefWidth="102.4000244140625" resizable="false" text="Head Moves" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </TableView>
                </children>
             </VBox>
          </children>
